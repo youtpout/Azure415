@@ -1,9 +1,11 @@
-<h1>Exemple of error 415 on azure but works well locally !</h1>
+<h3>Exemple of send data and files in multipart formdata </h3>
 <div>
   <div *ngIf="showError" class="alert alert-danger" role="alert">
     <span [innerHTML]="errorMessage"></span>
   </div>
-
+  <div *ngIf="successMessage" class="alert alert-success">
+    <span>Sent success : </span> <span [innerHTML]="successMessage"></span>
+  </div>
   <form [formGroup]="publishForm" (ngSubmit)="publish(publishForm.value)">
     <div class="mb-3 row">
       <label for="firstName" class="col-form-label col-sm-2">First name:</label>
@@ -47,8 +49,6 @@
         <button type="submit" class="btn btn-primary">Publish</button>
       </div>
     </div>
-    <div *ngIf="successMessage" class="alert alert-success">
-      <span>Sent success : </span> <span [innerHTML]="successMessage"></span>
-    </div>
+
   </form>
 </div>

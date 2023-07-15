@@ -31,9 +31,18 @@ namespace Azure415.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromForm] Person person)
+        public async Task<IActionResult> Post([FromForm] Person person)
         {
             string text = $"First name : {person.FirstName} Last name : {person.LastName} Pictures sent : {person.Pictures?.Count ?? 0}";
+
+            if (person.Pictures?.Any() ?? false)
+            {
+                using (var sw = person.Pictures[0].OpenReadStream())
+                {
+                    await sw.CopyToAsync(new MemoryStream());
+                }
+            }
+
             return Ok(new Result() { Text = text });
         }
     }
