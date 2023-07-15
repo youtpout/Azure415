@@ -1,0 +1,54 @@
+<h1>Exemple of error 415 on azure but works well locally !</h1>
+<div>
+  <div *ngIf="showError" class="alert alert-danger" role="alert">
+    <span [innerHTML]="errorMessage"></span>
+  </div>
+
+  <form [formGroup]="publishForm" (ngSubmit)="publish(publishForm.value)">
+    <div class="mb-3 row">
+      <label for="firstName" class="col-form-label col-sm-2">First name:</label>
+      <div class="col-md-5">
+        <input type="text" id="firstName" formControlName="firstName" class="form-control" />
+      </div>
+      <div class="col-md-5">
+        <em *ngIf="validateControl('firstName') && hasError('firstName', 'required')">First name required</em>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="lastName" class="col-form-label col-sm-2">Last name:</label>
+      <div class="col-md-5">
+        <input type="text" id="lastName" formControlName="lastName" class="form-control" />
+      </div>
+      <div class="col-md-5">
+        <em *ngIf="validateControl('lastName') && hasError('lastName', 'required')">Last name required</em>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="file" class="col-form-label col-sm-2">Pictures:</label>
+      <div class="col-md-5">
+        <input type="file" #file placeholder="Choose your pictures" accept="image/*" (change)="uploadFile(file.files)" style="display:none;">
+        <button type="button" class="btn btn-success" (click)="file.click()">Add picture</button>
+      </div>
+    </div>
+    <div class="preview">
+      <div class="img-preview" *ngFor="let file of getControlValue('pictures')">
+        <img id="blah" height="200" [src]="getImage(file) | sanitize" alt="your image" />
+        <div>
+          <button (click)="deleteFile(file)" class="btn btn-outline-danger delete-file">
+            ❎
+          </button>
+          <a class="downloadable" title="{{file.name}}">{{file.name | textOverflow:25}}</a>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="mb-3 row">
+      <div class="col-md-1">
+        <button type="submit" class="btn btn-primary">Publish</button>
+      </div>
+    </div>
+    <div *ngIf="successMessage" class="alert alert-success">
+      <span>Sent success : </span> <span [innerHTML]="successMessage"></span>
+    </div>
+  </form>
+</div>
